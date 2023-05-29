@@ -1,9 +1,10 @@
-package com.bitcodetech.mvvm.viewmodels
+package com.bitcodetech.mvvm.products.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bitcodetech.mvvm.models.Product
-import com.bitcodetech.mvvm.repositories.ProductsRepository
+import com.bitcodetech.mvvm.products.models.Product
+import com.bitcodetech.mvvm.products.repositories.ProductsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,15 +18,21 @@ class ProductsViewModel(
 
 
     fun getProductsByCategory(
+        token : String,
         mainCategoryId : Int,
         pageNo : Int,
         pageSize : Int
     ) {
         CoroutineScope(Dispatchers.IO).launch {
-            val products = productsRepository.getProductsByCategory(mainCategoryId, pageNo, pageSize)
+            val response = productsRepository.getProductsByCategory(
+                token,
+                mainCategoryId,
+                pageNo,
+                pageSize
+            )
 
             withContext(Dispatchers.Main) {
-                productsLiveData.postValue(products)
+                productsLiveData.postValue(response!!.data)
             }
         }
 

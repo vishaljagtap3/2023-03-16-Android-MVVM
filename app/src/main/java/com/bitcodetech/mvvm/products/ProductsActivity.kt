@@ -1,17 +1,17 @@
-package com.bitcodetech.mvvm
+package com.bitcodetech.mvvm.products
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bitcodetech.mvvm.models.Product
-import com.bitcodetech.mvvm.network.ProductsService
-import com.bitcodetech.mvvm.provider.ViewModelFactory
-import com.bitcodetech.mvvm.repositories.ProductsRepository
-import com.bitcodetech.mvvm.viewmodels.ProductsViewModel
+import com.bitcodetech.mvvm.R
+import com.bitcodetech.mvvm.products.network.ProductsService
+import com.bitcodetech.mvvm.products.provider.ViewModelFactory
+import com.bitcodetech.mvvm.products.repositories.ProductsRepository
+import com.bitcodetech.mvvm.products.viewmodels.ProductsViewModel
+import com.bitcodetech.mvvm.util.prefs.Preferences
 
-class MainActivity : AppCompatActivity() {
+class ProductsActivity : AppCompatActivity() {
 
     private lateinit var productsViewModel: ProductsViewModel
 
@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
         initObservers()
 
         productsViewModel.getProductsByCategory(
-            1,
+            Preferences.getToken(this)!!,
+            2,
             1,
             10
         )

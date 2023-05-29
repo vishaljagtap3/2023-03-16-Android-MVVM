@@ -1,6 +1,7 @@
-package com.bitcodetech.mvvm.network
+package com.bitcodetech.mvvm.products.network
 
-import com.bitcodetech.mvvm.models.Product
+import com.bitcodetech.mvvm.products.models.Product
+import com.bitcodetech.mvvm.products.models.ProductsResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -10,20 +11,23 @@ import retrofit2.http.Path
 interface ProductsService {
 
 
+
     @GET("superadmin/products/maincategory/{mainCatId}/{pageNo}/{pageSize}")
-    fun getProductsByCategory(
+    suspend fun getProductsByCategory(
+        @Header("Authorization")
+        token : String,
         @Path("mainCatId")
         mainCatId : Int,
         @Path("pageNo")
         pageNo : Int,
         @Path("pageSize")
         pageSize : Int
-    ) : ArrayList<Product>
+    ) : ProductsResponse
 
     companion object {
 
         private val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://bitcode.in:3001/apis/")
+            .baseUrl("https://bitcode.in:3000/apis/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
