@@ -20,6 +20,7 @@ class ProductsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initViewModels()
+        initAdapters()
         initObservers()
 
         productsViewModel.getProductsByCategory(
@@ -28,6 +29,10 @@ class ProductsActivity : AppCompatActivity() {
             1,
             10
         )
+    }
+
+    private fun initAdapters() {
+        productsViewModel.productsList //connect this to adapter and connect adapter to RV
     }
 
     private fun initObservers() {
@@ -39,6 +44,16 @@ class ProductsActivity : AppCompatActivity() {
                 for (product in it!!) {
                     Log.e("tag", "$product")
                 }
+            }
+        }
+
+        productsViewModel.productsAvailableLiveData.observe(
+            this
+        ) {
+            if(it != null) {
+                val startPos = it.getInt("start_pos")
+                val endPost = it.getInt("end_pos")
+
             }
         }
 
